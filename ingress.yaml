@@ -18,6 +18,38 @@ spec:
                 name: api-gateway
                 port:
                   number: 8080
+          # Swagger UI — exact match for the .html entry point (Prefix alone won't match .html)
+          - path: /swagger-ui.html
+            pathType: Exact
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
+          # Swagger UI resources (redirected to /swagger-ui/index.html + static assets)
+          - path: /swagger-ui
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
+          # OpenAPI JSON specs (gateway aggregator + per-service proxy routes)
+          - path: /v3/api-docs
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
+          # Swagger UI static assets (CSS/JS served via webjars)
+          - path: /webjars
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
           # Everything else → frontend (static SPA + /api fallback handled by nginx.conf inside)
           - path: /
             pathType: Prefix
