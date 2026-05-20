@@ -18,9 +18,10 @@ spec:
                 name: api-gateway
                 port:
                   number: 8080
-          # Swagger UI — exact match for the .html entry point (Prefix alone won't match .html)
+          # Swagger UI — ImplementationSpecific gives nginx a longer prefix (/swagger-ui.html)
+          # which beats the shorter /swagger-ui prefix for .html requests
           - path: /swagger-ui.html
-            pathType: Exact
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: api-gateway
